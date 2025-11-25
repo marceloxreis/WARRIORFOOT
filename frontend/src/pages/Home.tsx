@@ -54,12 +54,20 @@ export function Home() {
                   <p className="text-sm mt-1">Your league has been generated with 32 teams across 4 divisions. You have been assigned a team in Division 4.</p>
                 </div>
               </div>
-              <button
-                onClick={() => navigate('/team')}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-blue-500/50 whitespace-nowrap"
-              >
-                View Team
-              </button>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => navigate('/team')}
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-blue-500/50 whitespace-nowrap"
+                >
+                  View Team
+                </button>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/50 whitespace-nowrap"
+                >
+                  League Dashboard
+                </button>
+              </div>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { teamApi } from '../api/teamApi';
 import type { TeamInfo, PlayerInfo } from '../types/team';
@@ -7,6 +7,7 @@ import { apiClient } from '../api/client';
 
 export function TeamPage() {
   const navigate = useNavigate();
+  const { teamId } = useParams<{ teamId: string }>();
   const { fullName, activeTeamId, sessionToken, clearAuth } = useAuthStore();
   const [team, setTeam] = useState<TeamInfo | null>(null);
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
@@ -14,13 +15,14 @@ export function TeamPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!activeTeamId) return;
+    const targetTeamId = teamId || activeTeamId;
+    if (!targetTeamId) return;
 
     const loadTeamData = async () => {
       try {
         const [teamData, playersData] = await Promise.all([
-          teamApi.getTeam(activeTeamId),
-          teamApi.getTeamPlayers(activeTeamId),
+          teamApi.getTeam(targetTeamId),
+          teamApi.getTeamPlayers(targetTeamId),
         ]);
         setTeam(teamData);
         setPlayers(playersData);
@@ -32,7 +34,7 @@ export function TeamPage() {
     };
 
     loadTeamData();
-  }, [activeTeamId]);
+  }, [teamId, activeTeamId]);
 
   const handleLogout = async () => {
     if (sessionToken) {

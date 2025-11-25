@@ -1,5 +1,7 @@
 package com.warriorfoot.api.service;
 
+import com.warriorfoot.api.model.dto.LeagueDTO;
+import com.warriorfoot.api.model.dto.TeamDTO;
 import com.warriorfoot.api.model.entity.League;
 import com.warriorfoot.api.model.entity.Player;
 import com.warriorfoot.api.model.entity.Team;
@@ -13,9 +15,12 @@ import com.warriorfoot.api.util.TeamFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class LeagueService {
@@ -93,5 +98,28 @@ public class LeagueService {
 
     public List<UserLeague> getUserLeagues(UUID userId) {
         return userLeagueRepository.findByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public LeagueDTO getLeagueDashboard(UUID leagueId) {
+        List<Team> teams = teamRepository.findByLeagueId(leagueId);
+        
+        Map<Integer, List<TeamDTO>> divisions = teams.stream()
+            .collect(Collectors.groupingBy(
+                Team::getDivisionLevel,
+                LinkedHashMap::new,
+                Collectors.mapping(
+                    t -> new TeamDTO(
+                        t.getId(),
+                        t.getName(),
+                        t.getColorPrimary(),
+                        t.getColorSecondary(),
+                        t.getDivisionLevel()
+                    ),
+                    Collectors.toList()
+                )
+            ));
+        
+        return new LeagueDTO(divisions);
     }
 }
