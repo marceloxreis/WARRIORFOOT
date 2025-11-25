@@ -85,6 +85,17 @@ export function TeamPage() {
     FW: players.filter(p => p.position === 'FW'),
   };
 
+  const calculateAverage = (players: PlayerInfo[]) => {
+    if (players.length === 0) return 0;
+    const sum = players.reduce((acc, p) => acc + p.overall, 0);
+    return Math.round(sum / players.length);
+  };
+
+  const defRating = calculateAverage([...playersByPosition.GK, ...playersByPosition.DF]);
+  const midRating = calculateAverage(playersByPosition.MF);
+  const atkRating = calculateAverage(playersByPosition.FW);
+  const teamOvr = calculateAverage(players);
+
   return (
     <div className="min-h-screen">
       <nav className="bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50 shadow-lg">
@@ -115,7 +126,7 @@ export function TeamPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg shadow-xl p-6 mb-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-3xl font-bold mb-2" style={{ color: team.colorPrimary }}>
                 {team.name}
@@ -131,6 +142,25 @@ export function TeamPage() {
             <div className="text-right">
               <p className="text-gray-400 text-sm">Squad Size</p>
               <p className="text-3xl font-bold text-white">{players.length}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-4 gap-4">
+            <div className="bg-slate-900/40 rounded-lg p-4 text-center">
+              <p className="text-yellow-400 text-sm font-semibold mb-1">DEF</p>
+              <p className="text-3xl font-bold text-white">{defRating}</p>
+            </div>
+            <div className="bg-slate-900/40 rounded-lg p-4 text-center">
+              <p className="text-green-400 text-sm font-semibold mb-1">MID</p>
+              <p className="text-3xl font-bold text-white">{midRating}</p>
+            </div>
+            <div className="bg-slate-900/40 rounded-lg p-4 text-center">
+              <p className="text-red-400 text-sm font-semibold mb-1">ATK</p>
+              <p className="text-3xl font-bold text-white">{atkRating}</p>
+            </div>
+            <div className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border border-blue-500/30 rounded-lg p-4 text-center">
+              <p className="text-blue-300 text-sm font-semibold mb-1">OVR</p>
+              <p className="text-3xl font-bold text-white">{teamOvr}</p>
             </div>
           </div>
         </div>
