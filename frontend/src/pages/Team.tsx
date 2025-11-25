@@ -176,9 +176,10 @@ export function TeamPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {playersByPosition[position].map((player) => (
-                <div
+                <button
                   key={player.id}
-                  className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg p-4 hover:border-slate-600 transition-colors"
+                  onClick={() => navigate(`/player/${player.id}`)}
+                  className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg p-4 hover:border-slate-600 transition-colors text-left w-full"
                 >
                   <div className="flex justify-between items-start mb-2">
                     <div>
@@ -195,7 +196,7 @@ export function TeamPage() {
                   <div className="text-sm text-gray-400">
                     Value: <span className="text-green-400 font-semibold">{formatCurrency(player.marketValue)}</span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
