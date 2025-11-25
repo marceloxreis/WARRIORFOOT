@@ -34,18 +34,7 @@ public class LeagueController {
     public ResponseEntity<List<UserLeagueDTO>> getUserLeagues(@RequestHeader("Authorization") String authHeader) {
         String sessionToken = authHeader.replace("Bearer ", "");
         UUID userId = sessionService.getUserIdFromSession(sessionToken);
-        List<UserLeague> userLeagues = leagueService.getUserLeagues(userId);
-        
-        List<UserLeagueDTO> dtos = userLeagues.stream()
-            .map(ul -> new UserLeagueDTO(
-                ul.getLeagueId(),
-                ul.getTeam().getId(),
-                ul.getTeam().getName(),
-                ul.getTeam().getDivisionLevel(),
-                ul.getJoinedAt()
-            ))
-            .toList();
-        
+        List<UserLeagueDTO> dtos = leagueService.getUserLeaguesWithCreatorFlag(userId);
         return ResponseEntity.ok(dtos);
     }
 
@@ -54,18 +43,50 @@ public class LeagueController {
         String sessionToken = authHeader.replace("Bearer ", "");
         UUID userId = sessionService.getUserIdFromSession(sessionToken);
         UUID newLeagueId = leagueService.createNewLeagueForUser(userId);
-        
+
         List<UserLeague> userLeagues = leagueService.getUserLeagues(userId);
         UserLeague newLeague = userLeagues.stream()
             .filter(ul -> ul.getLeagueId().equals(newLeagueId))
             .findFirst()
             .orElseThrow();
-        
+
         return ResponseEntity.ok(Map.of(
             "leagueId", newLeagueId,
             "teamId", newLeague.getTeam().getId(),
             "teamName", newLeague.getTeam().getName(),
             "divisionLevel", newLeague.getTeam().getDivisionLevel()
         ));
+    }
+
+    @DeleteMapping("/{leagueId}")
+    public ResponseEntity<Void> deleteLeague(
+        @PathVariable UUID leagueId,
+        @RequestHeader("Authorization") String authHeader) {
+        try {
+            String sessionToken = authHeader.replace("Bearer ", "");
+            UUID userId = sessionService.getUserIdFromSession(sessionToken);
+            leagueService.deleteLeague(userId, leagueId);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).build();
+        }
+    }
+
+    @PostMapping("/{leagueId}/leave")
+    public ResponseEntity<Void> leaveLeague(
+        @PathVariable UUID leagueId,
+        @RequestHeader("Authorization") String authHeader) {
+        try {
+            String sessionToken = authHeader.replace("Bearer ", "");
+            UUID userId = sessionService.getUserIdFromSession(sessionToken);
+            leagueService.leaveLeague(userId, leagueId);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).build();
+        }
     }
 }

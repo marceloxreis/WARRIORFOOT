@@ -62,4 +62,13 @@ public class SessionService {
         }
         return UUID.fromString(userIdStr);
     }
+
+    public UUID getActiveLeagueIdFromSession(String token) {
+        Map<Object, Object> session = getSession(token);
+        String leagueIdStr = (String) session.get("activeLeagueId");
+        if (leagueIdStr == null) {
+            return null;
+        }
+        return UUID.fromString(leagueIdStr);
+    }
 }

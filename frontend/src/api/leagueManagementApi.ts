@@ -6,6 +6,7 @@ export type UserLeague = {
   teamName: string;
   divisionLevel: number;
   createdAt: string;
+  isCreator: boolean;
 };
 
 const getAuthHeader = () => {
@@ -45,5 +46,33 @@ export const leagueManagementApi = {
     }
 
     return response.json();
+  },
+
+  deleteLeague: async (leagueId: string): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/leagues/${leagueId}`, {
+      method: 'DELETE',
+      headers: getAuthHeader(),
+    });
+
+    if (!response.ok) {
+      if (response.status === 400) {
+        throw new Error('Only league creator can delete the league');
+      }
+      throw new Error('Failed to delete league');
+    }
+  },
+
+  leaveLeague: async (leagueId: string): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/leagues/${leagueId}/leave`, {
+      method: 'POST',
+      headers: getAuthHeader(),
+    });
+
+    if (!response.ok) {
+      if (response.status === 409) {
+        throw new Error('League creator cannot leave. Delete the league instead.');
+      }
+      throw new Error('Failed to leave league');
+    }
   },
 };

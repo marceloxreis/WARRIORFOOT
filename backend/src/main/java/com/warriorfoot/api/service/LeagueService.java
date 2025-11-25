@@ -73,7 +73,7 @@ public class LeagueService {
     @Transactional
     public void assignUserToLeague(UUID userId, UUID leagueId) {
         List<Team> availableTeams = teamRepository.findAvailableTeamsByLeague(leagueId);
-        
+
         if (availableTeams.isEmpty()) {
             throw new IllegalStateException("No available teams in this league");
         }
@@ -96,8 +96,60 @@ public class LeagueService {
         userLeagueRepository.save(userLeague);
     }
 
+    @Transactional
+    public void assignUserToLeagueWithTeam(UUID userId, UUID leagueId, UUID teamId) {
+        // Verify team exists and is in the league
+        Team team = teamRepository.findById(teamId)
+            .orElseThrow(() -> new IllegalArgumentException("Team not found"));
+
+        if (!team.getLeague().getId().equals(leagueId)) {
+            throw new IllegalArgumentException("Team is not in the specified league");
+        }
+
+        // Verify team is not already assigned
+        List<Team> availableTeams = teamRepository.findAvailableTeamsByLeague(leagueId);
+        if (availableTeams.stream().noneMatch(t -> t.getId().equals(teamId))) {
+            throw new IllegalArgumentException("Team is already assigned to another user");
+        }
+
+        // Check if user is already in this league
+        if (userLeagueRepository.findByUserIdAndLeagueId(userId, leagueId).isPresent()) {
+            throw new IllegalArgumentException("User is already in this league");
+        }
+
+        UserLeague userLeague = new UserLeague();
+        userLeague.setUserId(userId);
+        userLeague.setLeagueId(leagueId);
+        userLeague.setTeam(team);
+        userLeagueRepository.save(userLeague);
+    }
+
     public List<UserLeague> getUserLeagues(UUID userId) {
         return userLeagueRepository.findByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<com.warriorfoot.api.model.dto.UserLeagueDTO> getUserLeaguesWithCreatorFlag(UUID userId) {
+        List<UserLeague> userLeagues = userLeagueRepository.findByUserId(userId);
+
+        return userLeagues.stream()
+            .map(ul -> {
+                // Find the creator of this league (earliest joiner)
+                UserLeague creator = userLeagueRepository.findFirstByLeagueIdOrderByJoinedAtAsc(ul.getLeagueId())
+                    .orElse(null);
+
+                boolean isCreator = creator != null && creator.getUserId().equals(userId);
+
+                return new com.warriorfoot.api.model.dto.UserLeagueDTO(
+                    ul.getLeagueId(),
+                    ul.getTeam().getId(),
+                    ul.getTeam().getName(),
+                    ul.getTeam().getDivisionLevel(),
+                    ul.getJoinedAt(),
+                    isCreator
+                );
+            })
+            .toList();
     }
 
     @Transactional
@@ -109,7 +161,7 @@ public class LeagueService {
     @Transactional(readOnly = true)
     public LeagueDTO getLeagueDashboard(UUID leagueId) {
         List<Team> teams = teamRepository.findByLeagueId(leagueId);
-        
+
         Map<Integer, List<TeamDTO>> divisions = teams.stream()
             .collect(Collectors.groupingBy(
                 Team::getDivisionLevel,
@@ -125,7 +177,46 @@ public class LeagueService {
                     Collectors.toList()
                 )
             ));
-        
+
         return new LeagueDTO(divisions);
+    }
+
+    @Transactional
+    public void deleteLeague(UUID userId, UUID leagueId) {
+        // Verify league exists
+        if (!leagueRepository.existsById(leagueId)) {
+            throw new IllegalArgumentException("League not found");
+        }
+
+        // Find the league creator (earliest joiner)
+        UserLeague creator = userLeagueRepository.findFirstByLeagueIdOrderByJoinedAtAsc(leagueId)
+            .orElseThrow(() -> new IllegalStateException("League has no members"));
+
+        // Verify requesting user is the creator
+        if (!creator.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("Only league creator can delete the league");
+        }
+
+        // Delete league (cascade delete will handle teams, players, user_leagues, invites)
+        leagueRepository.deleteById(leagueId);
+    }
+
+    @Transactional
+    public void leaveLeague(UUID userId, UUID leagueId) {
+        // Verify user is in the league
+        UserLeague userLeague = userLeagueRepository.findByUserIdAndLeagueId(userId, leagueId)
+            .orElseThrow(() -> new IllegalArgumentException("You are not a member of this league"));
+
+        // Find the league creator (earliest joiner)
+        UserLeague creator = userLeagueRepository.findFirstByLeagueIdOrderByJoinedAtAsc(leagueId)
+            .orElseThrow(() -> new IllegalStateException("League has no members"));
+
+        // Prevent creator from leaving
+        if (creator.getUserId().equals(userId)) {
+            throw new IllegalStateException("League creator cannot leave. Delete the league instead.");
+        }
+
+        // Remove user from league
+        userLeagueRepository.delete(userLeague);
     }
 }

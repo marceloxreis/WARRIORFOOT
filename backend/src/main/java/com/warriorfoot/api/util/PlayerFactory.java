@@ -153,34 +153,40 @@ public class PlayerFactory {
         player.setStandTackle(varyStat(overall, 5));
         player.setSlideTackle(varyStat(overall - 5, 5));
         player.setDefending((player.getInterceptions() + player.getHeadingAcc() + player.getDefAware() + player.getStandTackle() + player.getSlideTackle()) / 5);
-        
+
         player.setJumping(varyStat(overall - 10, 5));
         player.setStrength(varyStat(overall - 5, 5));
         player.setStamina(varyStat(overall - 5, 5));
         player.setAggression(varyStat(overall - 10, 10));
         player.setPhysical((player.getJumping() + player.getStrength() + player.getStamina() + player.getAggression()) / 4);
-        
+
         player.setAcceleration(varyStat(overall - 15, 8));
         player.setSprintSpeed(varyStat(overall - 15, 8));
         player.setPace((player.getAcceleration() + player.getSprintSpeed()) / 2);
-        
+
         player.setShortPass(varyStat(overall - 10, 8));
         player.setLongPass(varyStat(overall - 15, 10));
         player.setVision(varyStat(overall - 15, 10));
         player.setCrossing(varyStat(overall - 15, 10));
-        player.setPassing((player.getShortPass() + player.getLongPass() + player.getVision() + player.getCrossing()) / 4);
-        
+        player.setCurve(varyStat(overall - 20, 10));
+        player.setFkAcc(varyStat(overall - 25, 10));
+        player.setPassing((player.getShortPass() + player.getLongPass() + player.getVision() + player.getCrossing() + player.getCurve() + player.getFkAcc()) / 6);
+
         player.setFinishing(varyStat(overall - 25, 10));
         player.setShotPower(varyStat(overall - 20, 10));
         player.setLongShots(varyStat(overall - 20, 10));
         player.setVolleys(varyStat(overall - 25, 10));
-        player.setShooting((player.getFinishing() + player.getShotPower() + player.getLongShots() + player.getVolleys()) / 4);
-        
+        player.setPenalties(varyStat(overall - 25, 10));
+        player.setAttPosition(varyStat(overall - 30, 10));
+        player.setShooting((player.getFinishing() + player.getShotPower() + player.getLongShots() + player.getVolleys() + player.getPenalties() + player.getAttPosition()) / 6);
+
         player.setAgility(varyStat(overall - 15, 8));
         player.setBalance(varyStat(overall - 15, 8));
         player.setBallControl(varyStat(overall - 12, 8));
         player.setReactions(varyStat(overall - 10, 8));
-        player.setDribbling((player.getAgility() + player.getBalance() + player.getBallControl() + player.getReactions()) / 4);
+        player.setDribblingSkill(varyStat(overall - 20, 10));
+        player.setComposure(varyStat(overall - 12, 8));
+        player.setDribbling((player.getAgility() + player.getBalance() + player.getBallControl() + player.getReactions() + player.getDribblingSkill() + player.getComposure()) / 6);
     }
 
     private void generateMFStats(Player player, int overall) {
@@ -220,9 +226,10 @@ public class PlayerFactory {
         
         player.setInterceptions(varyStat(overall - 15, 10));
         player.setStandTackle(varyStat(overall - 20, 10));
+        player.setSlideTackle(varyStat(overall - 22, 10));
         player.setHeadingAcc(varyStat(overall - 18, 10));
         player.setDefAware(varyStat(overall - 17, 10));
-        player.setDefending((player.getInterceptions() + player.getStandTackle() + player.getHeadingAcc() + player.getDefAware()) / 4);
+        player.setDefending((player.getInterceptions() + player.getStandTackle() + player.getSlideTackle() + player.getHeadingAcc() + player.getDefAware()) / 5);
     }
 
     private void generateFWStats(Player player, int overall) {
@@ -233,11 +240,11 @@ public class PlayerFactory {
         player.setPenalties(varyStat(overall - 5, 8));
         player.setAttPosition(varyStat(overall, 5));
         player.setShooting((player.getFinishing() + player.getShotPower() + player.getLongShots() + player.getVolleys() + player.getPenalties() + player.getAttPosition()) / 6);
-        
+
         player.setAcceleration(varyStat(overall - 5, 5));
         player.setSprintSpeed(varyStat(overall - 5, 5));
         player.setPace((player.getAcceleration() + player.getSprintSpeed()) / 2);
-        
+
         player.setBallControl(varyStat(overall - 5, 8));
         player.setDribblingSkill(varyStat(overall - 10, 8));
         player.setAgility(varyStat(overall - 8, 8));
@@ -245,23 +252,27 @@ public class PlayerFactory {
         player.setReactions(varyStat(overall - 5, 5));
         player.setComposure(varyStat(overall - 5, 8));
         player.setDribbling((player.getBallControl() + player.getDribblingSkill() + player.getAgility() + player.getBalance() + player.getReactions() + player.getComposure()) / 6);
-        
+
         player.setStrength(varyStat(overall - 10, 10));
         player.setJumping(varyStat(overall - 10, 8));
         player.setStamina(varyStat(overall - 10, 8));
         player.setAggression(varyStat(overall - 10, 10));
         player.setPhysical((player.getStrength() + player.getJumping() + player.getStamina() + player.getAggression()) / 4);
-        
+
         player.setShortPass(varyStat(overall - 15, 10));
         player.setVision(varyStat(overall - 15, 10));
         player.setCrossing(varyStat(overall - 20, 10));
         player.setLongPass(varyStat(overall - 20, 10));
-        player.setPassing((player.getShortPass() + player.getVision() + player.getCrossing() + player.getLongPass()) / 4);
-        
+        player.setCurve(varyStat(overall - 25, 10));
+        player.setFkAcc(varyStat(overall - 25, 10));
+        player.setPassing((player.getShortPass() + player.getVision() + player.getCrossing() + player.getLongPass() + player.getCurve() + player.getFkAcc()) / 6);
+
         player.setHeadingAcc(varyStat(overall - 10, 10));
         player.setInterceptions(varyStat(overall - 30, 10));
         player.setStandTackle(varyStat(overall - 35, 10));
-        player.setDefending((player.getHeadingAcc() + player.getInterceptions() + player.getStandTackle()) / 3);
+        player.setSlideTackle(varyStat(overall - 35, 10));
+        player.setDefAware(varyStat(overall - 32, 10));
+        player.setDefending((player.getHeadingAcc() + player.getInterceptions() + player.getStandTackle() + player.getSlideTackle() + player.getDefAware()) / 5);
     }
 
     private int varyStat(int base, int variance) {

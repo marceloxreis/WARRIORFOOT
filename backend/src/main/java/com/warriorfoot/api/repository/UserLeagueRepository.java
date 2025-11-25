@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface UserLeagueRepository extends JpaRepository<UserLeague, UserLeague.UserLeagueId> {
     List<UserLeague> findByUserId(UUID userId);
     Optional<UserLeague> findByUserIdAndLeagueId(UUID userId, UUID leagueId);
+    Optional<UserLeague> findFirstByLeagueIdOrderByJoinedAtAsc(UUID leagueId);
+    List<UserLeague> findByLeagueId(UUID leagueId);
 }

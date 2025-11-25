@@ -8,5 +8,6 @@ public record UserLeagueDTO(
     UUID teamId,
     String teamName,
     Integer divisionLevel,
-    LocalDateTime createdAt
+    LocalDateTime createdAt,
+    boolean isCreator
 ) {}

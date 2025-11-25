@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { apiClient } from '../api/client';
+import { inviteApi } from '../api/inviteApi';
+import { InviteDialog } from '../components/InviteDialog';
 
 export function Home() {
   const navigate = useNavigate();
   const { fullName, email, sessionToken, clearAuth } = useAuthStore();
+  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
 
   const handleLogout = async () => {
     if (sessionToken) {
@@ -12,6 +16,13 @@ export function Home() {
     }
     clearAuth();
     navigate('/login');
+  };
+
+  const handleSendInvite = async (name: string, inviteEmail: string) => {
+    await inviteApi.sendInvite({
+      inviteeName: name,
+      inviteeEmail: inviteEmail,
+    });
   };
 
   return (
@@ -25,6 +36,20 @@ export function Home() {
               className="text-gray-300 hover:text-white transition-colors font-medium"
             >
               Switch League
+            </button>
+            <button
+              onClick={() => setInviteDialogOpen(true)}
+              className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors font-medium"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
+              </svg>
+              Invite Friend
             </button>
             <div className="text-right">
               <p className="text-sm font-medium text-gray-100">{fullName}</p>
@@ -78,12 +103,9 @@ export function Home() {
           </div>
 
           <div className="bg-slate-900/30 border border-slate-700 rounded-lg p-6">
-            <h3 className="text-xl font-semibold mb-4 text-blue-400">🚀 Coming Soon</h3>
+            <h3 className="text-xl font-semibold mb-4 text-blue-400"> Coming Soon</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="flex items-center space-x-2 text-gray-300">
-                <span className="text-blue-400">▸</span>
-                <span>View your team and players</span>
-              </div>
+               
               <div className="flex items-center space-x-2 text-gray-300">
                 <span className="text-blue-400">▸</span>
                 <span>Manage lineup and tactics</span>
@@ -108,6 +130,13 @@ export function Home() {
           </div>
         </div>
       </div>
+
+      <InviteDialog
+        isOpen={inviteDialogOpen}
+        onClose={() => setInviteDialogOpen(false)}
+        onSubmit={handleSendInvite}
+        currentUserEmail={email || ''}
+      />
     </div>
   );
 }

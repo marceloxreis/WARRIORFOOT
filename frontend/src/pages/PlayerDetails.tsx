@@ -79,18 +79,28 @@ export default function PlayerDetailsPage() {
         { label: 'Sprint Speed', value: player.sprintSpeed },
       ]} />
       <StatSection title="Shooting" value={player.shooting} stats={[
+        { label: 'Att. Position', value: player.attPosition },
         { label: 'Finishing', value: player.finishing },
+        { label: 'Shot Power', value: player.shotPower },
         { label: 'Long Shots', value: player.longShots },
+        { label: 'Volleys', value: player.volleys },
+        { label: 'Penalties', value: player.penalties },
       ]} />
       <StatSection title="Passing" value={player.passing} stats={[
+        { label: 'Vision', value: player.vision },
+        { label: 'Crossing', value: player.crossing },
+        { label: 'FK Acc.', value: player.fkAcc },
         { label: 'Short Pass', value: player.shortPass },
         { label: 'Long Pass', value: player.longPass },
-        { label: 'Vision', value: player.vision },
+        { label: 'Curve', value: player.curve },
       ]} />
       <StatSection title="Dribbling" value={player.dribbling} stats={[
         { label: 'Agility', value: player.agility },
         { label: 'Balance', value: player.balance },
+        { label: 'Reactions', value: player.reactions },
         { label: 'Ball Control', value: player.ballControl },
+        { label: 'Dribbling', value: player.dribblingSkill },
+        { label: 'Composure', value: player.composure },
       ]} />
       <StatSection title="Defending" value={player.defending} stats={[
         { label: 'Interceptions', value: player.interceptions },
@@ -115,9 +125,12 @@ export default function PlayerDetailsPage() {
         { label: 'Sprint Speed', value: player.sprintSpeed },
       ]} />
       <StatSection title="Shooting" value={player.shooting} stats={[
+        { label: 'Att. Position', value: player.attPosition },
         { label: 'Finishing', value: player.finishing },
+        { label: 'Shot Power', value: player.shotPower },
         { label: 'Long Shots', value: player.longShots },
         { label: 'Volleys', value: player.volleys },
+        { label: 'Penalties', value: player.penalties },
       ]} />
       <StatSection title="Passing" value={player.passing} stats={[
         { label: 'Vision', value: player.vision },
@@ -137,7 +150,10 @@ export default function PlayerDetailsPage() {
       ]} />
       <StatSection title="Defending" value={player.defending} stats={[
         { label: 'Interceptions', value: player.interceptions },
+        { label: 'Heading Acc.', value: player.headingAcc },
+        { label: 'Def. Aware', value: player.defAware },
         { label: 'Stand Tackle', value: player.standTackle },
+        { label: 'Slide Tackle', value: player.slideTackle },
       ]} />
       <StatSection title="Physical" value={player.physical} stats={[
         { label: 'Jumping', value: player.jumping },
@@ -164,8 +180,11 @@ export default function PlayerDetailsPage() {
       ]} />
       <StatSection title="Passing" value={player.passing} stats={[
         { label: 'Vision', value: player.vision },
-        { label: 'Short Pass', value: player.shortPass },
         { label: 'Crossing', value: player.crossing },
+        { label: 'FK Acc.', value: player.fkAcc },
+        { label: 'Short Pass', value: player.shortPass },
+        { label: 'Long Pass', value: player.longPass },
+        { label: 'Curve', value: player.curve },
       ]} />
       <StatSection title="Dribbling" value={player.dribbling} stats={[
         { label: 'Agility', value: player.agility },
@@ -176,7 +195,11 @@ export default function PlayerDetailsPage() {
         { label: 'Composure', value: player.composure },
       ]} />
       <StatSection title="Defending" value={player.defending} stats={[
+        { label: 'Interceptions', value: player.interceptions },
         { label: 'Heading Acc.', value: player.headingAcc },
+        { label: 'Def. Aware', value: player.defAware },
+        { label: 'Stand Tackle', value: player.standTackle },
+        { label: 'Slide Tackle', value: player.slideTackle },
       ]} />
       <StatSection title="Physical" value={player.physical} stats={[
         { label: 'Jumping', value: player.jumping },

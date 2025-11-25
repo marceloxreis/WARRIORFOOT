@@ -2,13 +2,33 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { leagueManagementApi, type UserLeague } from '../api/leagueManagementApi';
+import { ConfirmDialog } from '../components/ConfirmDialog';
+
+type ConfirmDialogState = {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  confirmText: string;
+  variant: 'danger' | 'warning';
+  leagueId: string;
+  actionType: 'delete' | 'leave';
+};
 
 export default function LeaguesPage() {
   const navigate = useNavigate();
-  const { fullName, setAuth, sessionToken, userId, email } = useAuthStore();
+  const { fullName, setAuth, sessionToken, userId, email, activeLeagueId } = useAuthStore();
   const [leagues, setLeagues] = useState<UserLeague[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogState>({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: '',
+    variant: 'danger',
+    leagueId: '',
+    actionType: 'delete',
+  });
 
   useEffect(() => {
     loadLeagues();
@@ -39,7 +59,7 @@ export default function LeaguesPage() {
 
   const handleSelectLeague = (leagueId: string, teamId: string) => {
     if (!sessionToken || !userId || !email || !fullName) return;
-    
+
     setAuth({
       sessionToken,
       userId,
@@ -48,8 +68,70 @@ export default function LeaguesPage() {
       activeLeagueId: leagueId,
       activeTeamId: teamId,
     });
-    
+
     navigate('/home');
+  };
+
+  const handleDeleteClick = (league: UserLeague, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Delete League',
+      message: `Are you sure you want to delete this league? This will permanently remove the league and all its data for all participants. This action cannot be undone.`,
+      confirmText: 'Delete League',
+      variant: 'danger',
+      leagueId: league.leagueId,
+      actionType: 'delete',
+    });
+  };
+
+  const handleLeaveClick = (league: UserLeague, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Leave League',
+      message: `Are you sure you want to leave this league? You will no longer be able to access this league or your team.`,
+      confirmText: 'Leave League',
+      variant: 'warning',
+      leagueId: league.leagueId,
+      actionType: 'leave',
+    });
+  };
+
+  const handleConfirm = async () => {
+    try {
+      if (confirmDialog.actionType === 'delete') {
+        await leagueManagementApi.deleteLeague(confirmDialog.leagueId);
+      } else {
+        await leagueManagementApi.leaveLeague(confirmDialog.leagueId);
+      }
+
+      // Refresh leagues list
+      await loadLeagues();
+
+      // If the deleted/left league was the active one, clear it
+      if (activeLeagueId === confirmDialog.leagueId) {
+        if (!sessionToken || !userId || !email || !fullName) return;
+        setAuth({
+          sessionToken,
+          userId,
+          fullName,
+          email,
+          activeLeagueId: undefined,
+          activeTeamId: undefined,
+        });
+      }
+
+      setConfirmDialog({ ...confirmDialog, isOpen: false });
+    } catch (error) {
+      console.error('Failed to perform action:', error);
+      alert(error instanceof Error ? error.message : 'An error occurred');
+      setConfirmDialog({ ...confirmDialog, isOpen: false });
+    }
+  };
+
+  const handleCancel = () => {
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
   if (loading) {
@@ -91,44 +173,90 @@ export default function LeaguesPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {leagues.map((league) => (
-              <button
+              <div
                 key={league.leagueId}
-                onClick={() => handleSelectLeague(league.leagueId, league.teamId)}
-                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg p-6 hover:bg-slate-700/50 hover:border-slate-600/50 transition-all text-left group"
+                className="relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg p-6 hover:bg-slate-700/50 hover:border-slate-600/50 transition-all group"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
-                      {league.divisionLevel}
+                <button
+                  onClick={() => handleSelectLeague(league.leagueId, league.teamId)}
+                  className="w-full text-left"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                        {league.divisionLevel}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                          {league.teamName}
+                        </h3>
+                        <p className="text-sm text-slate-400">Division {league.divisionLevel}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                        {league.teamName}
-                      </h3>
-                      <p className="text-sm text-slate-400">Division {league.divisionLevel}</p>
-                    </div>
+                    <svg
+                      className="w-6 h-6 text-slate-600 group-hover:text-blue-400 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    className="w-6 h-6 text-slate-600 group-hover:text-blue-400 transition-colors"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-                <div className="text-xs text-slate-500">
-                  Created {new Date(league.createdAt).toLocaleDateString()}
-                </div>
-              </button>
+                  <div className="text-xs text-slate-500">
+                    Created {new Date(league.createdAt).toLocaleDateString()}
+                  </div>
+                </button>
+
+                {/* Delete/Leave Button */}
+                <button
+                  onClick={(e) => league.isCreator ? handleDeleteClick(league, e) : handleLeaveClick(league, e)}
+                  className={`absolute top-4 right-4 p-2 rounded-lg transition-all ${
+                    league.isCreator
+                      ? 'text-red-400 hover:bg-red-500/20 hover:text-red-300'
+                      : 'text-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-300'
+                  }`}
+                  title={league.isCreator ? 'Delete League' : 'Leave League'}
+                >
+                  {league.isCreator ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
             ))}
           </div>
         )}
+
+        <ConfirmDialog
+          isOpen={confirmDialog.isOpen}
+          title={confirmDialog.title}
+          message={confirmDialog.message}
+          confirmText={confirmDialog.confirmText}
+          cancelText="Cancel"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          variant={confirmDialog.variant}
+        />
       </div>
     </div>
   );

@@ -23,6 +23,9 @@ public class Invite {
     @Column(name = "invitee_email", nullable = false)
     private String inviteeEmail;
 
+    @Column(name = "invitee_name")
+    private String inviteeName;
+
     @Column(nullable = false, unique = true)
     private String token;
 
@@ -81,6 +84,14 @@ public class Invite {
 
     public void setInviteeEmail(String inviteeEmail) {
         this.inviteeEmail = inviteeEmail;
+    }
+
+    public String getInviteeName() {
+        return inviteeName;
+    }
+
+    public void setInviteeName(String inviteeName) {
+        this.inviteeName = inviteeName;
     }
 
     public String getToken() {

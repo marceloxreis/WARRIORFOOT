@@ -7,6 +7,7 @@ import { TeamPage } from './pages/Team';
 import Dashboard from './pages/Dashboard';
 import PlayerDetailsPage from './pages/PlayerDetails';
 import LeaguesPage from './pages/Leagues';
+import AcceptInvitePage from './pages/AcceptInvite';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Navigate to="/register" />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/accept-invite" element={<AcceptInvitePage />} />
         <Route
           path="/home"
           element={
