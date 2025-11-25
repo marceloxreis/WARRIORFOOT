@@ -54,48 +54,72 @@ export default function PlayerDetailsPage() {
 
   const renderGKStats = () => (
     <>
-      <StatSection title="Diving" stats={[
+      <StatSection title="Diving" value={player.diving} stats={[
         { label: 'Diving', value: player.diving },
         { label: 'Handling', value: player.handling },
         { label: 'Kicking', value: player.kicking },
       ]} />
-      <StatSection title="Reflexes" stats={[
+      <StatSection title="Reflexes" value={player.reflexes} stats={[
         { label: 'Reflexes', value: player.reflexes },
         { label: 'Speed', value: player.speed },
         { label: 'Positioning', value: player.positioning },
       ]} />
-      <StatSection title="Physical" stats={[
+      <StatSection title="Physical" value={player.physical} stats={[
         { label: 'Jumping', value: player.jumping },
         { label: 'Strength', value: player.strength },
+        { label: 'Aggression', value: player.aggression },
       ]} />
     </>
   );
 
   const renderDFStats = () => (
     <>
-      <StatSection title="Defending" stats={[
+      <StatSection title="Pace" value={player.pace} stats={[
+        { label: 'Acceleration', value: player.acceleration },
+        { label: 'Sprint Speed', value: player.sprintSpeed },
+      ]} />
+      <StatSection title="Shooting" value={player.shooting} stats={[
+        { label: 'Finishing', value: player.finishing },
+        { label: 'Long Shots', value: player.longShots },
+      ]} />
+      <StatSection title="Passing" value={player.passing} stats={[
+        { label: 'Short Pass', value: player.shortPass },
+        { label: 'Long Pass', value: player.longPass },
+        { label: 'Vision', value: player.vision },
+      ]} />
+      <StatSection title="Dribbling" value={player.dribbling} stats={[
+        { label: 'Agility', value: player.agility },
+        { label: 'Balance', value: player.balance },
+        { label: 'Ball Control', value: player.ballControl },
+      ]} />
+      <StatSection title="Defending" value={player.defending} stats={[
         { label: 'Interceptions', value: player.interceptions },
         { label: 'Heading Acc.', value: player.headingAcc },
         { label: 'Def. Aware', value: player.defAware },
         { label: 'Stand Tackle', value: player.standTackle },
         { label: 'Slide Tackle', value: player.slideTackle },
       ]} />
-      <StatSection title="Physical" stats={[
+      <StatSection title="Physical" value={player.physical} stats={[
         { label: 'Jumping', value: player.jumping },
         { label: 'Stamina', value: player.stamina },
         { label: 'Strength', value: player.strength },
         { label: 'Aggression', value: player.aggression },
-      ]} />
-      <StatSection title="Pace" stats={[
-        { label: 'Acceleration', value: player.acceleration },
-        { label: 'Sprint Speed', value: player.sprintSpeed },
       ]} />
     </>
   );
 
   const renderMFStats = () => (
     <>
-      <StatSection title="Passing" stats={[
+      <StatSection title="Pace" value={player.pace} stats={[
+        { label: 'Acceleration', value: player.acceleration },
+        { label: 'Sprint Speed', value: player.sprintSpeed },
+      ]} />
+      <StatSection title="Shooting" value={player.shooting} stats={[
+        { label: 'Finishing', value: player.finishing },
+        { label: 'Long Shots', value: player.longShots },
+        { label: 'Volleys', value: player.volleys },
+      ]} />
+      <StatSection title="Passing" value={player.passing} stats={[
         { label: 'Vision', value: player.vision },
         { label: 'Crossing', value: player.crossing },
         { label: 'FK Acc.', value: player.fkAcc },
@@ -103,7 +127,7 @@ export default function PlayerDetailsPage() {
         { label: 'Long Pass', value: player.longPass },
         { label: 'Curve', value: player.curve },
       ]} />
-      <StatSection title="Dribbling" stats={[
+      <StatSection title="Dribbling" value={player.dribbling} stats={[
         { label: 'Agility', value: player.agility },
         { label: 'Balance', value: player.balance },
         { label: 'Reactions', value: player.reactions },
@@ -111,36 +135,11 @@ export default function PlayerDetailsPage() {
         { label: 'Dribbling', value: player.dribblingSkill },
         { label: 'Composure', value: player.composure },
       ]} />
-      <StatSection title="Physical" stats={[
-        { label: 'Stamina', value: player.stamina },
-        { label: 'Strength', value: player.strength },
+      <StatSection title="Defending" value={player.defending} stats={[
+        { label: 'Interceptions', value: player.interceptions },
+        { label: 'Stand Tackle', value: player.standTackle },
       ]} />
-    </>
-  );
-
-  const renderFWStats = () => (
-    <>
-      <StatSection title="Pace" stats={[
-        { label: 'Acceleration', value: player.acceleration },
-        { label: 'Sprint Speed', value: player.sprintSpeed },
-      ]} />
-      <StatSection title="Shooting" stats={[
-        { label: 'Att. Position', value: player.attPosition },
-        { label: 'Finishing', value: player.finishing },
-        { label: 'Shot Power', value: player.shotPower },
-        { label: 'Long Shots', value: player.longShots },
-        { label: 'Volleys', value: player.volleys },
-        { label: 'Penalties', value: player.penalties },
-      ]} />
-      <StatSection title="Dribbling" stats={[
-        { label: 'Agility', value: player.agility },
-        { label: 'Balance', value: player.balance },
-        { label: 'Reactions', value: player.reactions },
-        { label: 'Ball Control', value: player.ballControl },
-        { label: 'Dribbling', value: player.dribblingSkill },
-        { label: 'Composure', value: player.composure },
-      ]} />
-      <StatSection title="Physical" stats={[
+      <StatSection title="Physical" value={player.physical} stats={[
         { label: 'Jumping', value: player.jumping },
         { label: 'Stamina', value: player.stamina },
         { label: 'Strength', value: player.strength },
@@ -149,9 +148,51 @@ export default function PlayerDetailsPage() {
     </>
   );
 
-  const StatSection = ({ title, stats }: { title: string; stats: { label: string; value: number }[] }) => (
+  const renderFWStats = () => (
+    <>
+      <StatSection title="Pace" value={player.pace} stats={[
+        { label: 'Acceleration', value: player.acceleration },
+        { label: 'Sprint Speed', value: player.sprintSpeed },
+      ]} />
+      <StatSection title="Shooting" value={player.shooting} stats={[
+        { label: 'Att. Position', value: player.attPosition },
+        { label: 'Finishing', value: player.finishing },
+        { label: 'Shot Power', value: player.shotPower },
+        { label: 'Long Shots', value: player.longShots },
+        { label: 'Volleys', value: player.volleys },
+        { label: 'Penalties', value: player.penalties },
+      ]} />
+      <StatSection title="Passing" value={player.passing} stats={[
+        { label: 'Vision', value: player.vision },
+        { label: 'Short Pass', value: player.shortPass },
+        { label: 'Crossing', value: player.crossing },
+      ]} />
+      <StatSection title="Dribbling" value={player.dribbling} stats={[
+        { label: 'Agility', value: player.agility },
+        { label: 'Balance', value: player.balance },
+        { label: 'Reactions', value: player.reactions },
+        { label: 'Ball Control', value: player.ballControl },
+        { label: 'Dribbling', value: player.dribblingSkill },
+        { label: 'Composure', value: player.composure },
+      ]} />
+      <StatSection title="Defending" value={player.defending} stats={[
+        { label: 'Heading Acc.', value: player.headingAcc },
+      ]} />
+      <StatSection title="Physical" value={player.physical} stats={[
+        { label: 'Jumping', value: player.jumping },
+        { label: 'Stamina', value: player.stamina },
+        { label: 'Strength', value: player.strength },
+        { label: 'Aggression', value: player.aggression },
+      ]} />
+    </>
+  );
+
+  const StatSection = ({ title, value, stats }: { title: string; value: number; stats: { label: string; value: number }[] }) => (
     <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-      <h3 className="text-lg font-bold text-white mb-4">{title}</h3>
+      <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-700/50">
+        <h3 className="text-lg font-bold text-white">{title}</h3>
+        <span className={`text-2xl font-black ${getStatColor(value)}`}>{value}</span>
+      </div>
       {stats.map((stat) => (
         <StatBar key={stat.label} label={stat.label} value={stat.value} />
       ))}
