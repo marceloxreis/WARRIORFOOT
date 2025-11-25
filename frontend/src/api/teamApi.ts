@@ -1,6 +1,6 @@
 const API_BASE_URL = 'http://localhost:8080';
 
-export interface Team {
+export interface TeamInfo {
   id: string;
   name: string;
   colorPrimary: string;
@@ -18,7 +18,7 @@ export interface Player {
 }
 
 export const teamApi = {
-  async getTeam(teamId: string): Promise<Team> {
+  async getTeam(teamId: string): Promise<TeamInfo> {
     const response = await fetch(`${API_BASE_URL}/teams/${teamId}`);
     if (!response.ok) throw new Error('Failed to fetch team');
     return response.json();
