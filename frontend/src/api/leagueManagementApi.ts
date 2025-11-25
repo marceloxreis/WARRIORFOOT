@@ -8,10 +8,18 @@ export type UserLeague = {
   createdAt: string;
 };
 
+const getAuthHeader = () => {
+  const stored = localStorage.getItem('auth-storage');
+  if (!stored) return {};
+  const data = JSON.parse(stored);
+  const token = data.state?.sessionToken;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 export const leagueManagementApi = {
   getUserLeagues: async (): Promise<UserLeague[]> => {
     const response = await fetch(`${API_BASE_URL}/leagues/user/list`, {
-      credentials: 'include',
+      headers: getAuthHeader(),
     });
 
     if (!response.ok) {
@@ -29,7 +37,7 @@ export const leagueManagementApi = {
   }> => {
     const response = await fetch(`${API_BASE_URL}/leagues/create`, {
       method: 'POST',
-      credentials: 'include',
+      headers: getAuthHeader(),
     });
 
     if (!response.ok) {

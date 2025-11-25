@@ -31,7 +31,8 @@ public class LeagueController {
     }
 
     @GetMapping("/user/list")
-    public ResponseEntity<List<UserLeagueDTO>> getUserLeagues(@CookieValue("session_token") String sessionToken) {
+    public ResponseEntity<List<UserLeagueDTO>> getUserLeagues(@RequestHeader("Authorization") String authHeader) {
+        String sessionToken = authHeader.replace("Bearer ", "");
         UUID userId = sessionService.getUserIdFromSession(sessionToken);
         List<UserLeague> userLeagues = leagueService.getUserLeagues(userId);
         
@@ -49,7 +50,8 @@ public class LeagueController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createNewLeague(@CookieValue("session_token") String sessionToken) {
+    public ResponseEntity<Map<String, Object>> createNewLeague(@RequestHeader("Authorization") String authHeader) {
+        String sessionToken = authHeader.replace("Bearer ", "");
         UUID userId = sessionService.getUserIdFromSession(sessionToken);
         UUID newLeagueId = leagueService.createNewLeagueForUser(userId);
         
