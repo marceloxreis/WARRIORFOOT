@@ -52,18 +52,18 @@ public class PlayerFactory {
         List<Player> players = new ArrayList<>();
         
         int baseMean = switch (divisionLevel) {
-            case 1 -> 80;
-            case 2 -> 70;
-            case 3 -> 60;
-            case 4 -> 55;
+            case 1 -> 82;
+            case 2 -> 72;
+            case 3 -> 62;
+            case 4 -> 52;
             default -> 50;
         };
         
         int stdDev = switch (divisionLevel) {
-            case 1 -> 5;
-            case 2 -> 6;
-            case 3 -> 7;
-            case 4 -> 8;
+            case 1 -> 4;
+            case 2 -> 4;
+            case 3 -> 5;
+            case 4 -> 6;
             default -> 10;
         };
         

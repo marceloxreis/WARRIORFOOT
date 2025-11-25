@@ -100,6 +100,12 @@ public class LeagueService {
         return userLeagueRepository.findByUserId(userId);
     }
 
+    @Transactional
+    public UUID createNewLeagueForUser(UUID userId) {
+        UUID leagueId = createLeagueForUser(userId);
+        return leagueId;
+    }
+
     @Transactional(readOnly = true)
     public LeagueDTO getLeagueDashboard(UUID leagueId) {
         List<Team> teams = teamRepository.findByLeagueId(leagueId);

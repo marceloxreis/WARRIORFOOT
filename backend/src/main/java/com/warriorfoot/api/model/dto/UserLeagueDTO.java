@@ -1,0 +1,12 @@
+package com.warriorfoot.api.model.dto;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record UserLeagueDTO(
+    UUID leagueId,
+    UUID teamId,
+    String teamName,
+    Integer divisionLevel,
+    LocalDateTime createdAt
+) {}
