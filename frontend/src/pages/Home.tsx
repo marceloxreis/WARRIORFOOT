@@ -20,6 +20,12 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">WARRIORFOOT</h1>
           <div className="flex items-center space-x-4">
+            <button
+              onClick={() => navigate('/leagues')}
+              className="text-gray-300 hover:text-white transition-colors font-medium"
+            >
+              Switch League
+            </button>
             <div className="text-right">
               <p className="text-sm font-medium text-gray-100">{fullName}</p>
               <p className="text-xs text-gray-400">{email}</p>

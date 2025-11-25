@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { TeamPage } from './pages/Team';
 import Dashboard from './pages/Dashboard';
 import PlayerDetailsPage from './pages/PlayerDetails';
+import LeaguesPage from './pages/Leagues';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
@@ -56,6 +57,14 @@ function App() {
           element={
             <ProtectedRoute>
               <PlayerDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/leagues"
+          element={
+            <ProtectedRoute>
+              <LeaguesPage />
             </ProtectedRoute>
           }
         />
