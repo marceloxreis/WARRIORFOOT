@@ -78,10 +78,12 @@ echo "${GREEN}✓ Redis started${NC}"
 
 echo ""
 echo "${YELLOW}Step 6: Creating database...${NC}"
-if psql postgres -lqt | cut -d \| -f 1 | grep -qw warriorfoot; then
+PG_BIN="/opt/homebrew/opt/postgresql@16/bin"
+export PATH="$PG_BIN:$PATH"
+if $PG_BIN/psql postgres -lqt | cut -d \| -f 1 | grep -qw warriorfoot; then
     echo "${GREEN}✓ Database 'warriorfoot' already exists${NC}"
 else
-    createdb warriorfoot
+    $PG_BIN/createdb warriorfoot
     echo "${GREEN}✓ Database 'warriorfoot' created${NC}"
 fi
 
