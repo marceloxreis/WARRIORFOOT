@@ -6,22 +6,22 @@ import type { LeagueInfo, TeamBasicInfo } from '../types/league';
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { leagueId } = useAuthStore();
+  const { activeLeagueId } = useAuthStore();
   const [leagueData, setLeagueData] = useState<LeagueInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!leagueId) {
+    if (!activeLeagueId) {
       navigate('/home');
       return;
     }
 
     leagueApi
-      .getLeagueDashboard(leagueId)
+      .getLeagueDashboard(activeLeagueId)
       .then(setLeagueData)
       .catch(() => navigate('/home'))
       .finally(() => setLoading(false));
-  }, [leagueId, navigate]);
+  }, [activeLeagueId, navigate]);
 
   if (loading) {
     return (
