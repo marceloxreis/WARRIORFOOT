@@ -33,58 +33,63 @@ export function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6">WARRIORFOOT</h1>
-        <h2 className="text-xl font-semibold mb-4">Create Account</h2>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="card p-8 w-full max-w-md">
+        <h1 className="logo-text text-center mb-2">WARRIORFOOT</h1>
+        <p className="text-gray-400 text-center text-sm mb-6">Soccer Management Game</p>
+        <h2 className="text-xl font-semibold mb-6 text-gray-100">Create Account</h2>
         
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="alert-error mb-4">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Full Name</label>
+            <label className="label">Full Name</label>
             <input
               type="text"
               required
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-field"
+              placeholder="Enter your full name"
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="label">Email</label>
             <input
               type="email"
               required
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-field"
+              placeholder="your.email@example.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label className="label">Password</label>
             <input
               type="password"
               required
               minLength={6}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-field"
+              placeholder="Minimum 6 characters"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+            <label className="label">Confirm Password</label>
             <input
               type="password"
               required
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-field"
+              placeholder="Re-enter your password"
               value={formData.passwordConfirmation}
               onChange={(e) => setFormData({ ...formData, passwordConfirmation: e.target.value })}
             />
@@ -93,16 +98,16 @@ export function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+            className="btn-primary w-full mt-6"
           >
-            {loading ? 'Creating Account...' : 'Register'}
+            {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm">
+        <p className="mt-6 text-center text-sm text-gray-400">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Login
+          <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+            Login here
           </Link>
         </p>
       </div>
