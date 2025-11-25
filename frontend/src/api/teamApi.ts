@@ -1,21 +1,21 @@
 const API_BASE_URL = 'http://localhost:8080';
 
-export interface TeamInfo {
+export type TeamInfo = {
   id: string;
   name: string;
   colorPrimary: string;
   colorSecondary: string;
   divisionLevel: number;
-}
+};
 
-export interface PlayerInfo {
+export type PlayerInfo = {
   id: string;
   name: string;
   age: number;
   position: string;
   overall: number;
   marketValue: number;
-}
+};
 
 export const teamApi = {
   async getTeam(teamId: string): Promise<TeamInfo> {
