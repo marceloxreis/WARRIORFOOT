@@ -46,17 +46,9 @@ export default function PlayerDetailsPage() {
   };
 
   const StatBar = ({ label, value }: { label: string; value: number }) => (
-    <div className="mb-3">
-      <div className="flex justify-between mb-1">
-        <span className="text-sm text-slate-300">{label}</span>
-        <span className={`text-sm font-bold ${getStatColor(value)}`}>{value}</span>
-      </div>
-      <div className="w-full bg-slate-700/50 rounded-full h-2">
-        <div
-          className={`h-2 rounded-full ${getBarColor(value)}`}
-          style={{ width: `${value}%` }}
-        />
-      </div>
+    <div className="flex justify-between items-center py-2 border-b border-slate-700/30 last:border-0">
+      <span className="text-sm text-slate-300">{label}</span>
+      <span className={`text-lg font-bold ${getStatColor(value)}`}>{value}</span>
     </div>
   );
 
