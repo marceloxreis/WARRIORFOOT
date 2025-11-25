@@ -53,4 +53,13 @@ public class SessionService {
         String key = SESSION_PREFIX + token;
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
+
+    public UUID getUserIdFromSession(String token) {
+        Map<Object, Object> session = getSession(token);
+        String userIdStr = (String) session.get("userId");
+        if (userIdStr == null) {
+            throw new IllegalArgumentException("Invalid session");
+        }
+        return UUID.fromString(userIdStr);
+    }
 }

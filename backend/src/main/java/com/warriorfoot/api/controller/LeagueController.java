@@ -41,7 +41,7 @@ public class LeagueController {
                 ul.getTeam().getId(),
                 ul.getTeam().getName(),
                 ul.getTeam().getDivisionLevel(),
-                ul.getCreatedAt()
+                ul.getJoinedAt()
             ))
             .toList();
         
