@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { teamApi, Team as TeamData, Player } from '../api/teamApi';
 import { apiClient } from '../api/client';
 
-export function Team() {
+export function TeamPage() {
   const navigate = useNavigate();
   const { fullName, activeTeamId, sessionToken, clearAuth } = useAuthStore();
   const [team, setTeam] = useState<TeamData | null>(null);
