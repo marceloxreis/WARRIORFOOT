@@ -44,22 +44,14 @@ export function Home() {
           </div>
           
           <div className="bg-green-900/20 border border-green-500/50 text-green-300 px-4 py-3 rounded-lg backdrop-blur-sm mb-6">
-            <div className="flex items-start justify-between">
-              <div className="flex items-start">
-                <svg className="w-5 h-5 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <div>
-                  <p className="font-semibold">League Created Successfully!</p>
-                  <p className="text-sm mt-1">Your league has been generated with 32 teams across 4 divisions. You have been assigned a team in Division 4.</p>
-                </div>
+            <div className="flex items-start">
+              <svg className="w-5 h-5 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="font-semibold">League Created Successfully!</p>
+                <p className="text-sm mt-1">Your league has been generated with 32 teams across 4 divisions. You have been assigned a team in Division 4.</p>
               </div>
-              <button
-                onClick={() => navigate('/team')}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-blue-500/50 whitespace-nowrap"
-              >
-                View Team
-              </button>
             </div>
           </div>
 

@@ -3,7 +3,6 @@ import { useAuthStore } from './store/authStore';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
-import { TeamPage } from './pages/Team';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
@@ -22,14 +21,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/team"
-          element={
-            <ProtectedRoute>
-              <TeamPage />
             </ProtectedRoute>
           }
         />
