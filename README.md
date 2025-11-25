@@ -27,3 +27,7 @@ docker-compose up -d
 cd backend && ./gradlew bootRun
 cd frontend && npm run dev
 ```
+# OUR
+```bash
+cd "/Users/marceloreis/Desktop/Projeto 2.0" && ./setup-and-start.sh
+```
