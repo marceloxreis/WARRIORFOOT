@@ -67,14 +67,16 @@ public class StatWeights {
     }
 
     private static int calculateFixedOverall(Player player) {
+        int overall;
         if (player.getPosition() == Player.Position.GK) {
-            return (player.getDiving() + player.getHandling() + player.getKicking() +
+            overall = (player.getDiving() + player.getHandling() + player.getKicking() +
                     player.getReflexes() + player.getSpeed() + player.getPositioning() +
                     player.getPace() + player.getPhysical()) / 8;
         } else {
-            return (player.getPace() + player.getShooting() + player.getPassing() +
+            overall = (player.getPace() + player.getShooting() + player.getPassing() +
                     player.getDribbling() + player.getDefending() + player.getPhysical()) / 6;
         }
+        return Math.max(40, Math.min(99, overall));
     }
 
     private static int calculatePositionalOverall(Player player) {
@@ -96,7 +98,8 @@ public class StatWeights {
                 player.getDefending() * weights.get("defending");
             
             double totalWeight = weights.values().stream().mapToDouble(Double::doubleValue).sum();
-            return (int) Math.round(weightedSum / totalWeight);
+            int overall = (int) Math.round(weightedSum / totalWeight);
+            return Math.max(40, Math.min(99, overall));
         } else {
             double weightedSum =
                 player.getPace() * weights.get("pace") +
@@ -107,7 +110,8 @@ public class StatWeights {
                 player.getPhysical() * weights.get("physical");
             
             double totalWeight = weights.values().stream().mapToDouble(Double::doubleValue).sum();
-            return (int) Math.round(weightedSum / totalWeight);
+            int overall = (int) Math.round(weightedSum / totalWeight);
+            return Math.max(40, Math.min(99, overall));
         }
     }
 }
