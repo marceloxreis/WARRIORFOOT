@@ -1,21 +1,6 @@
+import type { TeamInfo, PlayerInfo } from '../types/team';
+
 const API_BASE_URL = 'http://localhost:8080';
-
-export type TeamInfo = {
-  id: string;
-  name: string;
-  colorPrimary: string;
-  colorSecondary: string;
-  divisionLevel: number;
-};
-
-export type PlayerInfo = {
-  id: string;
-  name: string;
-  age: number;
-  position: string;
-  overall: number;
-  marketValue: number;
-};
 
 export const teamApi = {
   async getTeam(teamId: string): Promise<TeamInfo> {

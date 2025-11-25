@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { teamApi, TeamInfo, PlayerInfo } from '../api/teamApi';
+import { teamApi } from '../api/teamApi';
+import type { TeamInfo, PlayerInfo } from '../types/team';
 import { apiClient } from '../api/client';
 
 export function TeamPage() {
