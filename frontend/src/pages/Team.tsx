@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { teamApi, TeamInfo, Player } from '../api/teamApi';
+import { teamApi, TeamInfo, PlayerInfo } from '../api/teamApi';
 import { apiClient } from '../api/client';
 
 export function TeamPage() {
   const navigate = useNavigate();
   const { fullName, activeTeamId, sessionToken, clearAuth } = useAuthStore();
   const [team, setTeam] = useState<TeamInfo | null>(null);
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<PlayerInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 

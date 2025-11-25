@@ -8,7 +8,7 @@ export interface TeamInfo {
   divisionLevel: number;
 }
 
-export interface Player {
+export interface PlayerInfo {
   id: string;
   name: string;
   age: number;
@@ -24,7 +24,7 @@ export const teamApi = {
     return response.json();
   },
 
-  async getTeamPlayers(teamId: string): Promise<Player[]> {
+  async getTeamPlayers(teamId: string): Promise<PlayerInfo[]> {
     const response = await fetch(`${API_BASE_URL}/teams/${teamId}/players`);
     if (!response.ok) throw new Error('Failed to fetch players');
     return response.json();
