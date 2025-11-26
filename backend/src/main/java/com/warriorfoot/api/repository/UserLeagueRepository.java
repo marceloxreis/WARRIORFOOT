@@ -14,4 +14,5 @@ public interface UserLeagueRepository extends JpaRepository<UserLeague, UserLeag
     Optional<UserLeague> findByUserIdAndLeagueId(UUID userId, UUID leagueId);
     Optional<UserLeague> findFirstByLeagueIdOrderByJoinedAtAsc(UUID leagueId);
     List<UserLeague> findByLeagueId(UUID leagueId);
+    Optional<UserLeague> findByTeamId(UUID teamId);
 }

@@ -277,7 +277,7 @@ public class PlayerFactory {
 
     private int varyStat(int base, int variance) {
         int stat = base + random.nextInt(variance * 2 + 1) - variance;
-        return Math.max(30, Math.min(99, stat));
+        return Math.max(35, Math.min(99, stat));
     }
 
     private long calculateMarketValue(int overall, int age, Player.Position position) {

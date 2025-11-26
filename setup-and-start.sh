@@ -177,6 +177,16 @@ echo ""
 
 echo "${YELLOW}Starting backend in background...${NC}"
 cd "$PROJECT_DIR/backend"
+
+# Load email credentials from .env file
+if [ -f "$PROJECT_DIR/.env" ]; then
+    export $(cat "$PROJECT_DIR/.env" | grep -v '^#' | xargs)
+    echo "${GREEN}✓ Email configuration loaded from .env${NC}"
+else
+    echo "${YELLOW}⚠ Warning: .env file not found. Email features will not work.${NC}"
+    echo "   Copy .env.example to .env and configure your email credentials."
+fi
+
 ./gradlew bootRun > "$PROJECT_DIR/backend.log" 2>&1 &
 BACKEND_PID=$!
 echo "${GREEN}✓ Backend started (PID: $BACKEND_PID)${NC}"

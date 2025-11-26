@@ -1,0 +1,1 @@
+ALTER TABLE leagues ADD COLUMN name VARCHAR(255) NOT NULL DEFAULT 'Unnamed League';

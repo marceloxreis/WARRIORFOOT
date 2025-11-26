@@ -44,7 +44,7 @@ public class AuthService {
         user.setPasswordHash(BCrypt.hashpw(request.password(), BCrypt.gensalt()));
         user = userRepository.save(user);
 
-        UUID leagueId = leagueService.createLeagueForUser(user.getId());
+        UUID leagueId = leagueService.createLeagueForUser(user.getId(), "My First League");
 
         List<UserLeague> userLeagues = leagueService.getUserLeagues(user.getId());
         UUID teamId = userLeagues.get(0).getTeam().getId();

@@ -2,6 +2,7 @@ const API_BASE_URL = 'http://localhost:8080';
 
 export type UserLeague = {
   leagueId: string;
+  leagueName: string;
   teamId: string;
   teamName: string;
   divisionLevel: number;
@@ -30,7 +31,7 @@ export const leagueManagementApi = {
     return response.json();
   },
 
-  createNewLeague: async (): Promise<{
+  createNewLeague: async (leagueName: string): Promise<{
     leagueId: string;
     teamId: string;
     teamName: string;
@@ -38,7 +39,11 @@ export const leagueManagementApi = {
   }> => {
     const response = await fetch(`${API_BASE_URL}/leagues/create`, {
       method: 'POST',
-      headers: getAuthHeader(),
+      headers: {
+        ...getAuthHeader(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: leagueName }),
     });
 
     if (!response.ok) {

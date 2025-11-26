@@ -10,8 +10,7 @@ import jakarta.mail.internet.MimeMessage;
 public class EmailService {
 
     private final JavaMailSender mailSender;
-  export MAIL_USERNAME="marcelobreis12345@gmail.com"
-  export MAIL_PASSWORD="boby lvyg wzrp ymch"
+
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }

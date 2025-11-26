@@ -4,6 +4,7 @@ export type TeamInfo = {
   colorPrimary: string;
   colorSecondary: string;
   divisionLevel: number;
+  managerName: string;
 };
 
 export type PlayerInfo = {

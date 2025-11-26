@@ -39,10 +39,13 @@ public class LeagueController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createNewLeague(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<Map<String, Object>> createNewLeague(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody Map<String, String> request) {
         String sessionToken = authHeader.replace("Bearer ", "");
         UUID userId = sessionService.getUserIdFromSession(sessionToken);
-        UUID newLeagueId = leagueService.createNewLeagueForUser(userId);
+        String leagueName = request.getOrDefault("name", "My League");
+        UUID newLeagueId = leagueService.createNewLeagueForUser(userId, leagueName);
 
         List<UserLeague> userLeagues = leagueService.getUserLeagues(userId);
         UserLeague newLeague = userLeagues.stream()

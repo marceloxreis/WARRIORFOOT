@@ -131,6 +131,9 @@ export function TeamPage() {
               <h2 className="text-3xl font-bold mb-2" style={{ color: team.colorPrimary }}>
                 {team.name}
               </h2>
+              <p className="text-md text-gray-300 mb-2">
+                <span className="text-gray-500">Manager:</span> <span className="font-semibold">{team.managerName}</span>
+              </p>
               <div className="flex items-center space-x-4 text-sm text-gray-400">
                 <span>Division {team.divisionLevel}</span>
                 <span className="flex items-center">

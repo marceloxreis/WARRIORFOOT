@@ -46,9 +46,14 @@ export default function LeaguesPage() {
   };
 
   const handleCreateLeague = async () => {
+    const leagueName = prompt('Enter a name for your new league:');
+    if (!leagueName || leagueName.trim() === '') {
+      return;
+    }
+
     setCreating(true);
     try {
-      const newLeague = await leagueManagementApi.createNewLeague();
+      const newLeague = await leagueManagementApi.createNewLeague(leagueName.trim());
       await loadLeagues();
       handleSelectLeague(newLeague.leagueId, newLeague.teamId);
     } catch (error) {
@@ -181,16 +186,22 @@ export default function LeaguesPage() {
                   onClick={() => handleSelectLeague(league.leagueId, league.teamId)}
                   className="w-full text-left"
                 >
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="mb-3">
+                    <h2 className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors mb-1">
+                      {league.leagueName}
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Created {new Date(league.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold text-lg">
                         {league.divisionLevel}
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                          {league.teamName}
-                        </h3>
-                        <p className="text-sm text-slate-400">Division {league.divisionLevel}</p>
+                        <p className="text-sm text-slate-300">{league.teamName}</p>
+                        <p className="text-xs text-slate-500">Division {league.divisionLevel}</p>
                       </div>
                     </div>
                     <svg
@@ -206,9 +217,6 @@ export default function LeaguesPage() {
                         d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    Created {new Date(league.createdAt).toLocaleDateString()}
                   </div>
                 </button>
 

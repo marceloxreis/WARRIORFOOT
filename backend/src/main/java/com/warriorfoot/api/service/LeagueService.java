@@ -41,8 +41,9 @@ public class LeagueService {
     }
 
     @Transactional
-    public UUID createLeagueForUser(UUID userId) {
+    public UUID createLeagueForUser(UUID userId, String leagueName) {
         League league = new League();
+        league.setName(leagueName);
         league = leagueRepository.save(league);
 
         TeamFactory teamFactory = new TeamFactory();
@@ -140,8 +141,12 @@ public class LeagueService {
 
                 boolean isCreator = creator != null && creator.getUserId().equals(userId);
 
+                League league = leagueRepository.findById(ul.getLeagueId()).orElse(null);
+                String leagueName = league != null ? league.getName() : "Unknown League";
+
                 return new com.warriorfoot.api.model.dto.UserLeagueDTO(
                     ul.getLeagueId(),
+                    leagueName,
                     ul.getTeam().getId(),
                     ul.getTeam().getName(),
                     ul.getTeam().getDivisionLevel(),
@@ -153,14 +158,22 @@ public class LeagueService {
     }
 
     @Transactional
-    public UUID createNewLeagueForUser(UUID userId) {
-        UUID leagueId = createLeagueForUser(userId);
+    public UUID createNewLeagueForUser(UUID userId, String leagueName) {
+        UUID leagueId = createLeagueForUser(userId, leagueName);
         return leagueId;
     }
 
     @Transactional(readOnly = true)
     public LeagueDTO getLeagueDashboard(UUID leagueId) {
         List<Team> teams = teamRepository.findByLeagueId(leagueId);
+
+        // Create a map of teamId to manager name
+        List<UserLeague> userLeagues = userLeagueRepository.findByLeagueId(leagueId);
+        Map<UUID, String> teamManagerMap = userLeagues.stream()
+            .collect(Collectors.toMap(
+                ul -> ul.getTeam().getId(),
+                ul -> ul.getUser().getFullName()
+            ));
 
         Map<Integer, List<TeamDTO>> divisions = teams.stream()
             .collect(Collectors.groupingBy(
@@ -172,7 +185,8 @@ public class LeagueService {
                         t.getName(),
                         t.getColorPrimary(),
                         t.getColorSecondary(),
-                        t.getDivisionLevel()
+                        t.getDivisionLevel(),
+                        teamManagerMap.getOrDefault(t.getId(), "No Manager")
                     ),
                     Collectors.toList()
                 )

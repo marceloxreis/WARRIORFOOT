@@ -7,5 +7,6 @@ public record TeamDTO(
     String name,
     String colorPrimary,
     String colorSecondary,
-    Integer divisionLevel
+    Integer divisionLevel,
+    String managerName
 ) {}
