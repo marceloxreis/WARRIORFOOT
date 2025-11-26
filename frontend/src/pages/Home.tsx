@@ -127,6 +127,43 @@ export function Home() {
                 <span>Transfer market</span>
               </div>
             </div>
+
+          </div>
+           <div className="bg-slate-900/30 border border-slate-700 rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-4 text-blue-400"> Last changes </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+               
+              
+              <div className="flex items-center space-x-2 text-gray-300">
+                <span className="text-blue-400">▸</span>
+                <span>Invite friends to your league</span>
+              </div>
+              
+              <div className="flex items-center space-x-2 text-gray-300">
+                <span className="text-blue-400">▸</span>
+                <span>Multi-League System</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-300">
+                <span className="text-blue-400">▸</span>
+                <span>Position-Based Stats</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-300">
+                <span className="text-blue-400">▸</span>
+                <span>User Authentication</span>
+              </div>
+                 <div className="flex items-center space-x-2 text-gray-300">
+                <span className="text-blue-400">▸</span>
+                <span>Dynamic Roster Creation</span>
+              </div>
+               <div className="flex items-center space-x-2 text-gray-300">
+                <span className="text-blue-400">▸</span>
+                <span>Team page with all players</span>
+              </div>
+              
+
+
+            </div>
+
           </div>
         </div>
       </div>
