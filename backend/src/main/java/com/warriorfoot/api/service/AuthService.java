@@ -1,5 +1,6 @@
 package com.warriorfoot.api.service;
 
+import com.warriorfoot.api.config.GameConstants;
 import com.warriorfoot.api.model.dto.AuthResponse;
 import com.warriorfoot.api.model.dto.LoginRequest;
 import com.warriorfoot.api.model.dto.RegisterRequest;
@@ -44,7 +45,7 @@ public class AuthService {
         user.setPasswordHash(BCrypt.hashpw(request.password(), BCrypt.gensalt()));
         user = userRepository.save(user);
 
-        UUID leagueId = leagueService.createLeagueForUser(user.getId(), "My First League");
+        UUID leagueId = leagueService.createLeagueForUser(user.getId(), GameConstants.DEFAULT_LEAGUE_NAME);
 
         List<UserLeague> userLeagues = leagueService.getUserLeagues(user.getId());
         UUID teamId = userLeagues.get(0).getTeam().getId();

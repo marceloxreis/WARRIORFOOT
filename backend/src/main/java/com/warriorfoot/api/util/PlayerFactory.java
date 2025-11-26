@@ -1,5 +1,6 @@
 package com.warriorfoot.api.util;
 
+import com.warriorfoot.api.config.GameConstants;
 import com.warriorfoot.api.model.entity.Player;
 import com.warriorfoot.api.model.entity.Team;
 
@@ -39,12 +40,12 @@ public class PlayerFactory {
     public List<Player> generatePlayersForTeam(Team team) {
         List<Player> players = new ArrayList<>();
         int divisionLevel = team.getDivisionLevel();
-        
-        players.addAll(generateByPosition(team, Player.Position.GK, 2, divisionLevel));
-        players.addAll(generateByPosition(team, Player.Position.DF, 6, divisionLevel));
-        players.addAll(generateByPosition(team, Player.Position.MF, 8, divisionLevel));
-        players.addAll(generateByPosition(team, Player.Position.FW, 6, divisionLevel));
-        
+
+        players.addAll(generateByPosition(team, Player.Position.GK, GameConstants.GOALKEEPERS_PER_TEAM, divisionLevel));
+        players.addAll(generateByPosition(team, Player.Position.DF, GameConstants.DEFENDERS_PER_TEAM, divisionLevel));
+        players.addAll(generateByPosition(team, Player.Position.MF, GameConstants.MIDFIELDERS_PER_TEAM, divisionLevel));
+        players.addAll(generateByPosition(team, Player.Position.FW, GameConstants.FORWARDS_PER_TEAM, divisionLevel));
+
         return players;
     }
 
@@ -71,7 +72,7 @@ public class PlayerFactory {
             Player player = new Player();
             player.setTeam(team);
             player.setName(generateName());
-            player.setAge(16 + random.nextInt(25));
+            player.setAge(GameConstants.MIN_PLAYER_AGE + random.nextInt(GameConstants.PLAYER_AGE_RANGE));
             player.setPosition(position);
             
             int targetOverall = generateOverall(baseMean, stdDev);
@@ -95,7 +96,7 @@ public class PlayerFactory {
     private int generateOverall(int mean, int stdDev) {
         double gaussian = random.nextGaussian();
         int overall = (int) Math.round(mean + (gaussian * stdDev));
-        return Math.max(40, Math.min(99, overall));
+        return Math.max(GameConstants.MIN_PLAYER_OVERALL, Math.min(GameConstants.MAX_PLAYER_OVERALL, overall));
     }
 
     private void generateStats(Player player, int overall, Player.Position position) {
@@ -277,7 +278,7 @@ public class PlayerFactory {
 
     private int varyStat(int base, int variance) {
         int stat = base + random.nextInt(variance * 2 + 1) - variance;
-        return Math.max(35, Math.min(99, stat));
+        return Math.max(GameConstants.MIN_PLAYER_STAT, Math.min(GameConstants.MAX_PLAYER_STAT, stat));
     }
 
     private long calculateMarketValue(int overall, int age, Player.Position position) {

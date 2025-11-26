@@ -1,5 +1,6 @@
 package com.warriorfoot.api.service;
 
+import com.warriorfoot.api.config.GameConstants;
 import com.warriorfoot.api.model.dto.LeagueDTO;
 import com.warriorfoot.api.model.dto.TeamDTO;
 import com.warriorfoot.api.model.entity.League;
@@ -47,7 +48,7 @@ public class LeagueService {
         league = leagueRepository.save(league);
 
         TeamFactory teamFactory = new TeamFactory();
-        List<Team> teams = teamFactory.generateTeams(league, 32);
+        List<Team> teams = teamFactory.generateTeams(league, GameConstants.TOTAL_TEAMS_PER_LEAGUE);
         teams = teamRepository.saveAll(teams);
 
         PlayerFactory playerFactory = new PlayerFactory();
@@ -57,7 +58,7 @@ public class LeagueService {
         }
 
         List<Team> division4Teams = teams.stream()
-            .filter(t -> t.getDivisionLevel() == 4)
+            .filter(t -> t.getDivisionLevel() == GameConstants.STARTING_DIVISION)
             .toList();
 
         Team assignedTeam = division4Teams.get(new Random().nextInt(division4Teams.size()));
@@ -80,7 +81,7 @@ public class LeagueService {
         }
 
         List<Team> division4Available = availableTeams.stream()
-            .filter(t -> t.getDivisionLevel() == 4)
+            .filter(t -> t.getDivisionLevel() == GameConstants.STARTING_DIVISION)
             .toList();
 
         Team assignedTeam;

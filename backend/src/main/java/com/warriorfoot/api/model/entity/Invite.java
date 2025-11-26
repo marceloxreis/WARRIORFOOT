@@ -1,5 +1,6 @@
 package com.warriorfoot.api.model.entity;
 
+import com.warriorfoot.api.config.GameConstants;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -43,7 +44,7 @@ public class Invite {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         if (expiresAt == null) {
-            expiresAt = createdAt.plusDays(7);
+            expiresAt = createdAt.plusDays(GameConstants.INVITE_EXPIRATION_DAYS);
         }
         if (status == null) {
             status = InviteStatus.PENDING;
