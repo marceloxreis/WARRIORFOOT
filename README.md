@@ -400,26 +400,4 @@ Both backend and frontend support hot reload:
   - **Financial Management**: Team budget and wages
   - **Youth Academy**: Develop young players
 
-## License
 
-This project is for educational and personal use.
-
-## Known Issues
-
-  - Email service requires Gmail App Password for production use
-  - No pagination on large datasets
-  - Match simulation not yet implemented
-  - No player transfer system yet
-
-## Tips
-
-  - **First League**: Automatically created with "My First League" name
-  - **Starting Division**: All new users start in Division 4
-  - **Player Ages**: Younger players (under 24) have higher market values
-  - **Invite Expiry**: Invitations expire after 7 days
-  - **Multiple Leagues**: Switch between leagues via the "My Leagues" page
-  - **Team Assignment**: Random Division 4 team assigned on registration/invite
-
------
-
-Would you like me to optimize the `setup-and-start.sh` script or review the Java/React integration based on this structure?
